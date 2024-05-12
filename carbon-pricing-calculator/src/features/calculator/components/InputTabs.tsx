@@ -38,7 +38,7 @@ export function InputTabs(props: InputTabsProps) {
   };
 
   return (
-    <TabGroup className="bg-gray-200 shadow-xl w-max p-4 rounded-lg text-gray-900 absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
+    <TabGroup>
       <TabList className="flex gap-4">
         <Tab className="rounded-full py-1 px-3 text-sm/6 font-semibold focus:outline-none data-[selected]:bg-white/20 data-[hover]:bg-white/10 data-[selected]:data-[hover]:bg-white/20 data-[focus]:outline-1 data-[focus]:outline-white">
           Simple
@@ -103,9 +103,6 @@ export function InputTabs(props: InputTabsProps) {
               )}
             </Select>
           </Field>
-          <button className="px-2 py-1 bg-mui-data rounded-lg shadow-md mt-4 font-bold data-[hover]:shadow-none">
-            Submit
-          </button>
         </TabPanel>
         <TabPanel className="rounded-xl bg-white/10 p-3">Hidden</TabPanel>
       </TabPanels>
