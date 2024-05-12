@@ -1,19 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { InputTabs } from "./InputTabs";
 import { Graph } from "./Graph";
-import { GraphData } from "../types/formData";
-import { graphDataFromSimpleForm } from "../api/graphData";
+import { getTransferData } from "../api/formData";
+import { IncomeQuintile } from "../types/formData";
 
 export function Calculator() {
-  const [data, setData] = useState<GraphData | undefined>(undefined);
+  const [province, setProvince] = useState("");
+  const [quintile, setQuintile] = useState<IncomeQuintile>("q1");
+  const [data, setData] = useState<number[]>([0]);
 
   useEffect(() => {
-    graphDataFromSimpleForm({ province: "mb", quintile: "q1" }).then(setData);
-  }, []);
+    getTransferData(province, quintile).then((res) => {
+      if (res) {
+        setData(res);
+      }
+    });
+  }, [quintile, province]);
 
   return (
     <div className="w-screen h-screen bg-gray-200 relative">
-      <InputTabs />
+      <InputTabs
+        province={province}
+        setProvince={setProvince}
+        quintile={quintile}
+        setQuintile={setQuintile}
+      />
       {data ? <Graph data={data} /> : <></>}
     </div>
   );

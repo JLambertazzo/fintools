@@ -1,5 +1,5 @@
 import { forceType } from "../../../utils/typeGuard";
-import { JsonData, Province } from "../types/formData";
+import { IncomeQuintile, JsonData, Province } from "../types/formData";
 
 const forceJsonData = (input: unknown): input is JsonData => {
   if (!Array.isArray(input)) {
@@ -33,6 +33,20 @@ export const getQuintiles = async (provCode: Province["code"]) =>
     .then(forceType(forceJsonData))
     .then((data) => data?.find((element) => element.province.code === provCode))
     .then((result) => result?.quintiles)
+    .catch((err) => {
+      console.log("An unexpected error occurred:", err);
+      return undefined;
+    });
+
+export const getTransferData = async (
+  provCode: Province["code"],
+  quintile: IncomeQuintile,
+) =>
+  fetch("provinces.json")
+    .then((res) => res.json())
+    .then(forceType(forceJsonData))
+    .then((data) => data?.find((element) => element.province.code === provCode))
+    .then((result) => result?.netTransfer[quintile])
     .catch((err) => {
       console.log("An unexpected error occurred:", err);
       return undefined;

@@ -11,25 +11,30 @@ import {
 } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import { getProvinces, getQuintiles } from "../api/formData";
-import { Province, QuintileData } from "../types/formData";
+import { IncomeQuintile, Province, QuintileData } from "../types/formData";
 
-export function InputTabs() {
+export type InputTabsProps = {
+  province: string;
+  quintile: string;
+  setProvince: (p: string) => void;
+  setQuintile: (q: IncomeQuintile) => void;
+};
+
+export function InputTabs(props: InputTabsProps) {
   const [provinces, setProvinces] = useState<Province[] | undefined>();
   const [quintiles, setQuintiles] = useState<QuintileData | undefined>();
-  const [province, setProvince] = useState("");
-  const [quintile, setQuintile] = useState("");
 
   useEffect(() => {
     getProvinces().then(setProvinces);
   }, []);
 
   useEffect(() => {
-    getQuintiles(province).then(setQuintiles);
-  }, [province]);
+    getQuintiles(props.province).then(setQuintiles);
+  }, [props.province]);
 
   const handleProvinceChange = (event: any) => {
     console.log(event.target.value);
-    setProvince(event.target.value);
+    props.setProvince(event.target.value);
   };
 
   return (
@@ -57,7 +62,7 @@ export function InputTabs() {
             </Description>
             <Select
               className="bg-gray-100 rounded-lg border-none w-full p-2"
-              value={province}
+              value={props.province}
               onChange={handleProvinceChange}
             >
               <option disabled selected value="">
@@ -82,8 +87,10 @@ export function InputTabs() {
             </Description>
             <Select
               className="bg-gray-100 rounded-lg border-none w-full p-2"
-              value={quintile}
-              onChange={(e) => setQuintile(e.target.value)}
+              value={props.quintile}
+              onChange={(e) =>
+                props.setQuintile(e.target.value as IncomeQuintile)
+              }
             >
               {quintiles ? (
                 Object.entries(quintiles).map(([q, [min, max]]) => (

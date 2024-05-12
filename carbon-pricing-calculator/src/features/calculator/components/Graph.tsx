@@ -1,17 +1,16 @@
 import React from "react";
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
-import { GraphData } from "../types/formData";
 
 export type GraphProps = {
-  data: GraphData;
+  data: number[];
 };
 
 export function Graph(props: GraphProps) {
   return (
     <div className="absolute top-0 left-0 w-screen h-screen z-10">
       <SparkLineChart
-        data={props.data.costs}
-        xAxis={{ data: props.data.years }}
+        data={props.data}
+        // xAxis={{ data: props.data.years }}
         showTooltip
         showHighlight
         area
